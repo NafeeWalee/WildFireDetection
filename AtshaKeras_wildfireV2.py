@@ -94,7 +94,7 @@ x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random
 print(len(x_train), len(x_test))
 
 np.random.seed(42)
-rn.seed(42)
+rn.seed(42) #usage?
 tf.random.set_seed(42)
 
 model = Sequential()
@@ -119,7 +119,7 @@ batch_size = 16  # 32 #64 #128
 epochs=10
 
 from keras.callbacks import ReduceLROnPlateau
-red_lr= ReduceLROnPlateau(monitor='val_acc' ,patience=3,verbose=1,factor=0.1)
+red_lr= ReduceLROnPlateau(monitor='val_acc' ,patience=3,verbose=1,factor=0.1) #usage?
 
 datagen = ImageDataGenerator(
     featurewise_center=False, # set input mean toe over the dataset
@@ -134,11 +134,12 @@ datagen = ImageDataGenerator(
     horizontal_flip=False, # randomly flip images
     vertical_flip=True) # randomly flip images
 
-model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy', metrics=['AUC', 'accuracy'])  #Precision(thresholds=0), 
+model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['AUC', 'accuracy'])  #Precision(thresholds=0), 
 
 model.summary()
+print(model.summary())
 
-History = model.fit_generator(datagen.flow(x_train, y_train, batch_size = batch_size),
+History = model.fit(datagen.flow(x_train, y_train, batch_size = batch_size),
     epochs = epochs, validation_data = (x_test,y_test),
     verbose = 1, steps_per_epoch = x_train.shape[0] // batch_size)
 
